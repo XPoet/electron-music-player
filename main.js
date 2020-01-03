@@ -6,12 +6,13 @@ const myStore = new MusicDataStore({ name: 'music-data' });
 class AppWindow extends BrowserWindow {
   constructor(config, fileLocation) {
     const basicConfig = {
-      width: 1200,
-      height: 800,
+      width: 800,
+      height: 600,
       webPreferences: {
         nodeIntegration: true
       }
     };
+
     // es5
     // const finalConfig = Object.assign(basicConfig, config);
 
@@ -20,7 +21,9 @@ class AppWindow extends BrowserWindow {
 
     super(finalConfig);
     this.loadFile(fileLocation);
-    this.webContents.openDevTools();
+
+    // 打开控制台
+    // this.webContents.openDevTools();
     this.once('ready-to-show', () => {
       this.show();
     });
@@ -29,10 +32,14 @@ class AppWindow extends BrowserWindow {
 
 app.on('ready', () => {
   const mainWindow = new AppWindow({}, './renderer/index.html');
+  mainWindow.webContents.on('did-finish-load', () => {
+    mainWindow.send('get-tracks', myStore.getTracks());
+  });
+
   ipcMain.on('add-music-window', () => {
     new AppWindow({
-      width: 800,
-      height: 600,
+      width: 600,
+      height: 400,
       parent: mainWindow
     }, './renderer/add.html');
   });
@@ -49,8 +56,14 @@ app.on('ready', () => {
 
   // 导入音乐
   ipcMain.on('import-music', (event, args) => {
-    const updatedTracks = myStore.addTracks(args).getTracks();
-    console.log('updatedTracks', updatedTracks);
+    mainWindow.send('get-tracks', myStore.addTracks(args).getTracks());
+  });
+
+
+  // 删除音乐
+  ipcMain.on('delete-track', (event, args) => {
+    const updatedTracks = myStore.deleteTrack(args).getTracks();
     mainWindow.send('get-tracks', updatedTracks);
   });
+
 });

@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Electron Music Player</title>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="./index.css">
 </head>
 <body>
 <div class="container">
@@ -14,6 +16,16 @@
     >
         添加歌曲到曲库
     </button>
+    <div class="main-window-music-list mt-4">
+    </div>
+</div>
+
+<div class="container fixed-bottom">
+    <hr>
+    <div class="row mb-2" id="player-status"></div>
+    <div class="progress mb-3">
+        <div id="player-progress" class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 0%;">0%</div>
+    </div>
 </div>
 </body>
 <script>
