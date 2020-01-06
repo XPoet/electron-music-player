@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start_old": "electron .",
-    "build": "electron-builder",
+    "dist": "electron-builder",
     "start": "nodemon --watch main.js --exec 'electron .'"
   },
   "build": {
