@@ -1,11 +1,50 @@
 {
-  "name": "electron-quick-start",
+  "name": "electron-music-player",
   "version": "1.0.0",
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
     "start_old": "electron .",
+    "build": "electron-builder",
     "start": "nodemon --watch main.js --exec 'electron .'"
+  },
+  "build": {
+    "appId": "electronMusicPlayer",
+    "mac": {
+      "category": "public.app-category.productivity"
+    },
+    "dmg": {
+      "background": "assets/appdmg.png",
+      "icon": "assets/icon.icns",
+      "iconSize": 100,
+      "contents": [
+        {
+          "x": 380,
+          "y": 280,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 110,
+          "y": 280,
+          "type": "file"
+        }
+      ],
+      "window": {
+        "width": 500,
+        "height": 500
+      }
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "squirrel",
+      "icon": "assets/icon.ico"
+    }
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -19,6 +58,7 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^7.1.7",
+    "electron-builder": "^21.2.0",
     "nodemon": "^2.0.2"
   },
   "dependencies": {
